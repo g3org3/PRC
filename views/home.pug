@@ -1,0 +1,68 @@
+doctype html
+html
+  head
+    // Import Google Icon Font
+    link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+    // Import jQuery before materialize.js
+    script(type='text/javascript', src='https://code.jquery.com/jquery-2.1.1.min.js')
+    // Import materialize.css
+    // Compiled and minified CSS
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css')
+    // Compiled and minified JavaScript
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js')
+    // Let browser know website is optimized for mobile
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  body
+    nav.blue
+      .container
+        a.brand-logo.center(href='#') 24/7
+        ul#nav-mobile.right
+          li
+            a(href='/logout') Logout
+        ul#nav-mobile.left
+          if route == 'analytics' && user.type == 'admin'
+            li.active
+              a(href='/') Analytics
+          else if user.type == 'admin'
+            li
+              a(href='/') Analytics
+          if route == 'employees' && user.type == 'admin'
+            li.active
+              a(href='/employees') Empleados
+          else if user.type == 'admin'
+            li
+              a(href='/employees') Empleados
+          if route == 'customers'
+            li.active
+              a(href='/customers') Clientes
+          else
+            li
+              a(href='/customers') Clientes
+    script(src='https://code.highcharts.com/highcharts.js')
+    script(src='https://code.highcharts.com/modules/exporting.js')
+    script(src='/chart.js')
+    if route == 'analytics'
+      .div-analytics
+        .container
+          center
+            h4 Analytics
+        #container.container(style='min-width: 310px; height: 400px; margin: 0 auto; padding-top:0px;')
+
+    else if route == 'employees'
+      .div-empleados
+        .container
+          h3 Empleados
+          ul.collection
+            li.collection-item Alvin, apellido
+            li.collection-item Alvin
+            li.collection-item Alvin
+            li.collection-item Alvin
+    else if route == 'customers'
+      .div-empleados
+        .container
+          h3 Clientes
+          ul.collection
+            li.collection-item Alvin, apellido
+            li.collection-item Alvin
+            li.collection-item Alvin
+            li.collection-item Alvin
