@@ -53,16 +53,29 @@ html
         .container
           h3 Empleados
           ul.collection
-            li.collection-item Alvin, apellido
-            li.collection-item Alvin
-            li.collection-item Alvin
-            li.collection-item Alvin
+            each customer in customers
+              li.collection-item.avatar
+                img.circle(src=customer.img, alt='')
+                span.title(style="text-transform:capitalize;")= customer.name
+                p
+                 | #{customer.email}
+                 br
+                 | #{customer.phone}
+                a.secondary-content(href='#!')
+                  i.material-icons chat
+
     else if route == 'customers'
       .div-empleados
         .container
           h3 Clientes
           ul.collection
-            li.collection-item Alvin, apellido
-            li.collection-item Alvin
-            li.collection-item Alvin
-            li.collection-item Alvin
+            each customer in customers
+              li.collection-item.avatar
+                img.circle(src=customer.img, alt='')
+                span.title(style="text-transform:capitalize;")= customer.name
+                p
+                 | #{customer.email}
+                 br
+                 | #{customer.phone}
+                a.secondary-content(href='#!')
+                  i.material-icons phone

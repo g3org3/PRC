@@ -26,29 +26,57 @@ app.get('/', function (req, res) {
 app.get('/employees', function (req, res) {
   if (user.type == null) return res.redirect('/login')
   if (user.type != 'admin') return res.redirect('/customers')
-  res.render('home', { route: 'employees', user:user });
+
+  request({
+    uri: 'https://randomuser.me/api/?results=5',
+    json: true
+  })
+  .then(function (response) {
+    var customers = response.results.map(p => {
+      return {gender:p.gender, name: p.name.first+p.name.last, phone: p.phone, email: p.email, img: p.picture.medium}
+    })
+    res.render('home', { route: 'employees', user:user, customers: customers });
+  })
+  .catch(e => {
+    console.error('Error:', e)
+    res.render('home', { route: 'employees', user:user, customers:[] });
+  })
 })
 
 app.get('/customers', function (req, res) {
   if (user.type == null) return res.redirect('/login')
-  res.render('home', { route: 'customers', user:user });
-})
-
-app.get('/api/users', function (req, res) {
 
   request({
-    uri: 'https://randomuser.me/api/',
+    uri: 'https://randomuser.me/api/?results=7',
     json: true
   })
   .then(function (response) {
-    console.log(response.results)
-    res.json({ users: [] })
+    var customers = response.results.map(p => {
+      return {gender:p.gender, name: p.name.first+p.name.last, phone: p.phone, email: p.email, img: p.picture.medium}
+    })
+    res.render('home', { route: 'customers', user:user, customers: customers });
   })
   .catch(e => {
-    console.error(e)
-    res.json({ users: [] })
+    console.error('Error:', e)
+    res.render('home', { route: 'customers', user:user, customers:[] });
   })
 
+})
+
+app.get('/api/users', function (req, res) {
+  request({
+    uri: 'https://randomuser.me/api/?results=20',
+    json: true
+  })
+  .then(function (response) {
+    res.json(response.results.map(p => {
+      return {gender:p.gender, name: p.name.first+p.name.last, city: p.city, email: p.email, img: p.picture.medium}
+    }))
+  })
+  .catch(e => {
+    console.error('Error:', e)
+    res.json([])
+  })
 })
 
 app.post('/login', function (req, res) {
